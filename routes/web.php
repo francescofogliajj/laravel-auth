@@ -19,8 +19,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/posts', 'PostController@index')->name('posts.index');
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')
@@ -32,3 +30,7 @@ Route::prefix('admin')
     Route::resource('posts', 'PostController');
 
 });
+
+Route::get('/posts', 'PostController@index')->name('posts.index');
+
+Route::get('/posts/{slug}', 'PostController@show')->name('posts.show');

@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    private $postValidation = [
+        'title' => 'required|max:100',
+        'text' => 'required',
+        // 'img_path' => 'image'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -43,18 +49,17 @@ class PostController extends Controller
     {
         $data = $request->all();
 
-        $request->validate(
-            [
-                'title' => 'required|max:100',
-                'text' => 'required',
-            ]
-        );
+        $request->validate($this->postValidation);
 
         $newPost = new Post();
-
         $data["slug"] = Str::slug($data["title"]);
         $data["user_id"] = Auth::id();
-        $newPost->fill($data);
+
+        if (!empty($data["img_path"])) {
+            $data["img_path"] = Storage::disk('public')->put('images', $data["img_path"]);
+        }
+        
+        $newPost->fill($data); // => $fillable nel Model
         $newPost->save();
 
         return redirect()->route('admin.posts.index');

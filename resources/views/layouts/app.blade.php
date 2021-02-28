@@ -35,7 +35,7 @@
                     <ul class="navbar-nav mr-auto">
 
                         <li class="nav-item">
-                            <a href="{{ route('posts.index') }}">Blog</a>
+                            <a class="nav-link" href="{{ route('posts.index') }}">Blog</a>
                         </li>
 
                     </ul>

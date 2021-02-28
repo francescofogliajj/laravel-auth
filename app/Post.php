@@ -10,6 +10,7 @@ class Post extends Model
         'user_id',
         'title',
         'slug',
+        'img_path',
         'text'
     ];
 
