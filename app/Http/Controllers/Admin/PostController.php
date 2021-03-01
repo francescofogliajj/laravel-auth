@@ -10,6 +10,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use App\Mail\PostMail;
+use Illuminate\Support\Facades\Mail;
+
 class PostController extends Controller
 {
     private $postValidation = [
@@ -60,9 +63,13 @@ class PostController extends Controller
         }
         
         $newPost->fill($data); // => $fillable nel Model
-        $newPost->save();
+        $saved = $newPost->save();
 
-        return redirect()->route('admin.posts.index');
+        if ($saved) {
+            Mail::to('pippo@gmail.com')->send(new PostMail($newPost));
+
+            return redirect()->route('admin.posts.index');
+        }
     }
 
     /**
