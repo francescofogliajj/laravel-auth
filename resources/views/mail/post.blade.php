@@ -8,7 +8,13 @@
     </head>
     <body>
         <h1>{{ $post->title }}</h1>
-        <img src="{{ asset('storage/' . $post->img_path) }}" alt="{{ $post->title }}" style="width: 100%">
+
+        @if (!empty($post->img_path))
+            <img src="{{ asset('storage/' . $post->img_path) }}" alt="{{ $post->title }}" style="width: 100%">
+        @else
+            <img src="{{ asset('images/placeholder.png') }}" alt="{{ $post->title }}" style="width: 100%">
+        @endif
+
         <p>{{ $post->text }}</p>
     </body>
 </html>
